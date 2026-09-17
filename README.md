@@ -39,3 +39,11 @@ Mediante distintos pipelines de ingenieria de datos, la aplicacion puede conecta
 ## Modelado 
 
 Es importante la arquitectura y modelado de datos para garantizar la calidad y operatividad de la aplicacion, siendo la prioridad inicial la integridad de la data alimenticia. con validez y rigurosidad cientifica.
+
+# Fase 0:
+
+### Decisiones de arquitectura
+
+La fase 0 consta del deploy a nivel local, utilizando k3s y mi propia infraestructura para realizar pruebas en la fase de desarrollo de la aplicacion. Sin conexion a backend para la interfaz de usuario, solo capas de logica y deploy local. Posteriormente se busca escalar a servicios de la nube en caso de poder ser algo utilizable en produccion.
+
+![diagrama](./assets/f0.png)
