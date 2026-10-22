@@ -8,3 +8,6 @@ infra/terraform.tfstate*
 infra/.terraform.lock.hcl.bak
 .pi/
 infra/.build/
+.agents/
+GLOSSARY.md
+TODO.md
