@@ -3,8 +3,13 @@ name = "wiener"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "adbc-driver-postgresql>=1.12.0",
     "boto3>=1.35",
     "httpx>=0.27",
+    "mcp>=2.3.0",
+    "polars>=2.0.0",
+    "psycopg[binary]>=3.3.6",
+    "pyarrow>=26.0.0",
 ]
 
 [dependency-groups]

@@ -1,0 +1,9 @@
+[Unit]
+Description=Run wiener gold loader every 6h (1h after extraction)
+
+[Timer]
+OnCalendar=01/6:15
+Persistent=true
+
+[Install]
+WantedBy=timers.target

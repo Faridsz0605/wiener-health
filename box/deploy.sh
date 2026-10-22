@@ -20,5 +20,5 @@ docker compose --env-file /opt/wiener/.env -f box/docker-compose.yml up -d --rem
 
 cp box/systemd/* /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable --now wiener-extraction.timer
+systemctl enable --now wiener-extraction.timer wiener-load-gold.timer
 echo "deployed"

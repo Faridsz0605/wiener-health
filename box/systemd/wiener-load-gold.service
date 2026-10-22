@@ -1,0 +1,10 @@
+[Unit]
+Description=wiener gold loader: gold Parquet -> Analysis Store
+After=docker.service
+OnFailure=wiener-alert@%n.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/wiener/app
+EnvironmentFile=/opt/wiener/.env
+ExecStart=/usr/local/bin/uv run --frozen --no-dev python -m extraction.load_gold

@@ -95,6 +95,7 @@ resource "aws_iam_role_policy" "box" {
       { Effect = "Allow", Action = ["s3:GetObject"], Resource = "${aws_s3_bucket.raw_archive.arn}/deploy/*" },
       { Effect = "Allow", Action = ["ssm:GetParameter"], Resource = "arn:aws:ssm:${var.region}:${data.aws_caller_identity.me.account_id}:parameter/wiener/*" },
       { Effect = "Allow", Action = ["sns:Publish"], Resource = aws_sns_topic.alerts.arn },
+      { Effect = "Allow", Action = ["bedrock:InvokeModel"], Resource = "arn:aws:bedrock:${var.region}::foundation-model/amazon.titan-embed-text-v2:0" },
     ]
   })
 }

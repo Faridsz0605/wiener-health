@@ -6,3 +6,5 @@
 - [ ] **FastAPI** — deferred. Build only when a real consumer exists (dashboard, LLM tool over pgvector).
 - [ ] **Databricks PAT rotation** — every 90 days; update SSM SecureString.
 - [ ] **Verify before build** — Databricks Free Edition file-arrival triggers on UC Volumes (fallback: scheduled job); Google Health API OAuth scope class + refresh-token expiry under Testing publishing status.
+- [ ] **CI terraform apply** — automate in `.github/workflows/ci.yml` after first stable deploy (needs remote state: S3 backend).
+- [ ] **GitHub secrets** — `DATABRICKS_HOST`, `DATABRICKS_TOKEN`, `ALERT_EMAIL` for bundle deploy job.
