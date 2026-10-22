@@ -1,0 +1,10 @@
+[Unit]
+Description=wiener extraction: Open Wearables -> Raw Archive
+After=docker.service
+OnFailure=wiener-alert@%n.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/wiener/app
+EnvironmentFile=/opt/wiener/.env
+ExecStart=/usr/local/bin/uv run --frozen --no-dev python -m extraction.extract

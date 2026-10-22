@@ -1,0 +1,7 @@
+[Unit]
+Description=Publish systemd failure of %i to SNS
+
+[Service]
+Type=oneshot
+EnvironmentFile=/opt/wiener/.env
+ExecStart=/bin/sh -c 'aws sns publish --region "$AWS_REGION" --topic-arn "$ALERT_TOPIC_ARN" --subject "wiener: %i failed" --message "$(journalctl -u %i -n 50 --no-pager)"'

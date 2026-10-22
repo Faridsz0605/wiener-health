@@ -1,0 +1,9 @@
+[Unit]
+Description=Run wiener extraction every 6h
+
+[Timer]
+OnCalendar=00/6:15
+Persistent=true
+
+[Install]
+WantedBy=timers.target

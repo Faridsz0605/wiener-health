@@ -1,0 +1,76 @@
+# Open Wearables (pinned release images) + Analysis Store on the box.
+# All ports bind to 127.0.0.1; reach them via SSM port forwarding.
+x-ow: &ow
+  image: themomentum/open-wearables-backend:${OW_VERSION}
+  env_file: /opt/wiener/.env
+  environment:
+    DB_HOST: db
+    DB_NAME: open-wearables
+    DB_USER: open-wearables
+    REDIS_HOST: redis
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_started
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: open-wearables
+      POSTGRES_USER: open-wearables
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U open-wearables -d open-wearables"]
+      interval: 5s
+      retries: 10
+    volumes:
+      - ow_db:/var/lib/postgresql
+    restart: unless-stopped
+
+  redis:
+    image: redis:8
+    command: redis-server --appendonly yes --appendfsync everysec
+    volumes:
+      - ow_redis:/data
+    restart: unless-stopped
+
+  app:
+    <<: *ow
+    command: scripts/start/app.sh
+    ports: ["127.0.0.1:8000:8000"]
+
+  celery-worker:
+    <<: *ow
+    command: scripts/start/worker.sh
+
+  celery-beat:
+    <<: *ow
+    command: scripts/start/beat.sh
+
+  frontend:
+    image: themomentum/open-wearables-frontend:${OW_VERSION}
+    environment:
+      API_URL: http://app:8000
+      VITE_API_URL: http://localhost:8000
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on: [app]
+    restart: unless-stopped
+
+  analysis_store:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: analysis
+      POSTGRES_USER: wiener
+      POSTGRES_PASSWORD: ${ANALYSIS_DB_PASSWORD}
+    ports: ["127.0.0.1:5433:5432"]
+    volumes:
+      - analysis_db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  ow_db:
+  ow_redis:
+  analysis_db:
