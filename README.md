@@ -100,6 +100,16 @@ flowchart LR
 - **Tests**: `pytest` for Extraction (recorded fixtures), Health Summary template, gold loader hash logic. Lakeflow expectations act as the data tests.
 - **Alerts**: Databricks job failure email; Lambda error alarm and systemd `OnFailure`, both to one SNS email topic.
 
+## Runbook
+
+```bash
+./scripts/tf.sh init && ./scripts/tf.sh apply   # AWS infra
+./scripts/deploy_box.sh                          # env -> SSM, code -> box, compose up, timers
+./scripts/tunnel.sh                              # portal :3000, API :8000, Analysis Store :5433
+./scripts/deploy_bundle.sh                       # Databricks schema, volumes, pipeline, job
+uv run --env-file .env python -m agent.mcp_server  # MCP agent (tunnel must be up)
+```
+
 ## Privacy
 
 Health data copies live in Google (Fitbit cloud), your AWS account, and Databricks-managed storage. The MCP agent sends Health Summaries and query results to whichever LLM your MCP client uses (e.g. Anthropic, OpenAI). Accepted for single-Subject personal use; switch to Bedrock-hosted models only if this ever goes multi-Subject.
