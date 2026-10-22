@@ -7,4 +7,7 @@ OnFailure=wiener-alert@%n.service
 Type=oneshot
 WorkingDirectory=/opt/wiener/app
 EnvironmentFile=/opt/wiener/.env
+TimeoutStartSec=900
+# Open Wearables API can take minutes to come up after a restart
+ExecStartPre=/bin/sh -c "until curl -sf -o /dev/null http://127.0.0.1:8000/docs; do sleep 5; done"
 ExecStart=/usr/local/bin/uv run --frozen --no-dev python -m extraction.extract

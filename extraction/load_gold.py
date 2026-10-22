@@ -160,7 +160,7 @@ def main() -> None:
         print("no gold data yet")
         return
 
-    uri = f"postgresql://wiener:{os.environ['ANALYSIS_DB_PASSWORD']}@localhost:5433/analysis"
+    uri = f"postgresql://wiener:{os.environ['ANALYSIS_DB_PASSWORD']}@127.0.0.1:5433/analysis"
     for table, df in gold.items():
         # Truncate + reload: gold is small and fully recomputed each run.
         df.write_database(table, uri, if_table_exists="replace", engine="adbc")

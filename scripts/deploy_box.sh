@@ -12,11 +12,11 @@ INSTANCE=$(out instance_id)
 ENV_CONTENT="$(grep -vE '^(AWS_PROFILE|#|$)' .env)
 RAW_ARCHIVE_BUCKET=$BUCKET
 ALERT_TOPIC_ARN=$(out alert_topic_arn)
-OW_API_URL=http://localhost:8000/api/v1"
+OW_API_URL=http://127.0.0.1:8000/api/v1"
 aws ssm put-parameter --region "$AWS_REGION" --name /wiener/env --type SecureString \
   --overwrite --value "$ENV_CONTENT" >/dev/null
 
-tar czf /tmp/wiener_app.tar.gz pyproject.toml uv.lock extraction box
+tar czf /tmp/wiener_app.tar.gz .python-version pyproject.toml uv.lock extraction box
 aws s3 cp --region "$AWS_REGION" /tmp/wiener_app.tar.gz "s3://$BUCKET/deploy/app.tar.gz" >/dev/null
 aws s3 cp --region "$AWS_REGION" box/deploy.sh "s3://$BUCKET/deploy/deploy.sh" >/dev/null
 

@@ -11,3 +11,4 @@ infra/.build/
 .agents/
 GLOSSARY.md
 TODO.md
+infra/tfplan
