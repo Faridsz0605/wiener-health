@@ -11,12 +11,18 @@ s3 = boto3.client("s3")
 _creds = None
 
 
+def _origin(url: str) -> str:
+    # Workspace URLs copied from the browser carry paths/queries like /?o=123; the API wants scheme://host only.
+    parts = urllib.parse.urlsplit(url.strip())
+    return f"{parts.scheme}://{parts.netloc}"
+
+
 def databricks_creds() -> tuple[str, str]:
     global _creds
     if _creds is None:
         env_file = boto3.client("ssm").get_parameter(Name="/wiener/env", WithDecryption=True)["Parameter"]["Value"]
         env = dict(line.split("=", 1) for line in env_file.splitlines() if "=" in line and not line.startswith("#"))
-        _creds = (env["DATABRICKS_HOST"].rstrip("/"), env["DATABRICKS_TOKEN"])
+        _creds = (_origin(env["DATABRICKS_HOST"]), env["DATABRICKS_TOKEN"])
     return _creds
 
 

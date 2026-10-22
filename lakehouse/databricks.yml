@@ -16,7 +16,7 @@ targets:
     default: true
     mode: production
     workspace:
-      root_path: /Workspace/Shared/.bundle/wiener
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/wiener
 
 resources:
   schemas:

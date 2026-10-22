@@ -5,6 +5,7 @@ import hashlib
 import io
 import json
 import os
+import urllib.parse
 
 import boto3
 import httpx
@@ -14,6 +15,12 @@ import psycopg
 GOLD_TABLES = ("daily_health_summary", "sleep_nightly", "workout_summary", "trend_baselines")
 EMBED_MODEL = "amazon.titan-embed-text-v2:0"
 EMBED_DIM = 1024
+
+
+def _origin(url: str) -> str:
+    # Workspace URLs copied from the browser carry paths/queries like /?o=123; the API wants scheme://host only.
+    parts = urllib.parse.urlsplit(url.strip())
+    return f"{parts.scheme}://{parts.netloc}"
 
 
 def read_gold_table(dbx: httpx.Client, volume: str, table: str) -> pl.DataFrame:
@@ -150,7 +157,7 @@ def upsert_summaries(conn, bedrock, summaries: list[dict]) -> int:
 
 def main() -> None:
     dbx = httpx.Client(
-        base_url=os.environ["DATABRICKS_HOST"].rstrip("/"),
+        base_url=_origin(os.environ["DATABRICKS_HOST"]),
         headers={"Authorization": f"Bearer {os.environ['DATABRICKS_TOKEN']}"},
         timeout=120,
     )

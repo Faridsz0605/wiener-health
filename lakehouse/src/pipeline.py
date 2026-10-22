@@ -8,21 +8,37 @@ LANDING = spark.conf.get("wiener.landing_path")  # noqa: F821  (spark is injecte
 # shortcut: single display timezone for day boundaries; per-Subject tz when multi-Subject
 TZ = spark.conf.get("wiener.timezone")  # noqa: F821
 
-ENVELOPE = (
-    "data_source string, entity string, subject_id string, extracted_at timestamp, "
-    "window_start string, window_end string"
+SOURCE = (
+    "struct<provider:string, source:string, device:string, device_type:string, device_id:string, device_name:string>"
 )
+# Explicit schemas: inference breaks on Extractions with empty data arrays.
+DATA = {
+    "timeseries": "array<struct<timestamp:string, zone_offset:string, type:string, value:double, unit:string, "
+    f"source:{SOURCE}, is_daily_total:boolean>>",
+    "sleep": "array<struct<id:string, start_time:string, end_time:string, zone_offset:string, "
+    f"source:{SOURCE}, duration_seconds:bigint, sleep_duration_seconds:bigint, time_in_bed_seconds:bigint, "
+    "efficiency_percent:double, stages:struct<awake_minutes:double, light_minutes:double, deep_minutes:double, "
+    "rem_minutes:double>, is_nap:boolean>>",
+    "workouts": "array<struct<id:string, type:string, name:string, start_time:string, end_time:string, "
+    f"zone_offset:string, duration_seconds:bigint, source:{SOURCE}, calories_kcal:double, distance_meters:double, "
+    "avg_heart_rate_bpm:bigint, max_heart_rate_bpm:bigint, steps_count:bigint>>",
+}
 
 
 def bronze(entity: str):
+    schema = (
+        "data_source string, entity string, subject_id string, extracted_at string, window_start string, "
+        f"window_end string, data {DATA[entity]}"
+    )
+
     @dlt.table(name=f"bronze_{entity}", comment=f"Raw Open Wearables {entity} Extractions, one row per file")
     def _():
         return (
             spark.readStream.format("cloudFiles")  # noqa: F821
             .option("cloudFiles.format", "json")
-            .option("cloudFiles.inferColumnTypes", "true")
-            .option("cloudFiles.schemaEvolutionMode", "rescue")
             .option("multiLine", "true")
+            .option("rescuedDataColumn", "_rescued_data")
+            .schema(schema)
             .load(f"{LANDING}/open_wearables/{entity}/")
             .withColumn("file_path", F.col("_metadata.file_path"))
             .withColumn("extracted_at", F.col("extracted_at").cast("timestamp"))
