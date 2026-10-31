@@ -61,6 +61,20 @@ Binaries (photos, attachments) never leave the machine; only metadata and hashes
 
 ![Photos flow](docs/diagrams/photos-flow.svg)
 
+### Quick start (Gmail client)
+
+Requires Python 3.13 and [uv](https://docs.astral.sh/uv/), the project's Databricks workspace with the `scratch` Volume (`./scripts/deploy_bundle.sh`), a Databricks PAT, and your own Google OAuth client (Desktop) on a test account. Setup details: [docs/spikes.md](docs/spikes.md).
+
+```sh
+uv sync --group client
+export DATABRICKS_HOST=https://<workspace>.cloud.databricks.com
+uv run python spikes/00_store_token.py                              # Databricks PAT -> OS keyring
+uv run python -m core.cli gmail auth ~/client_secret.json             # Google token -> OS keyring
+uv run python -m core.cli gmail run --format duckdb --out out/
+```
+
+`gmail run` syncs Gmail incrementally, uploads the new raw batches to `scratch/<run_id>/`, runs the job, pulls Gold, deletes the scratch path and fails if any object is left. Output: Parquet or CSV files per run, or a DuckDB/SQLite database merged across runs. Status: tested with mocks and local Spark; first real run pending ([roadmap](docs/roadmap.md)).
+
 Details: [data model](docs/model.md), [retention](docs/retention.md), [ADRs](docs/adr/).
 
 ## Service catalog
@@ -120,8 +134,8 @@ Calendar, Drive, YouTube. Broker. UI. Real multi-user. Reverse geocoding. Binary
 ```
 extraction/      extractors: Open Wearables (box); Gmail (local client)
 lakehouse/       Databricks bundle: Lakeflow medallion pipeline, gold export; ephemeral Gmail job
-serving/         Gold export to user destinations (F2)
-core/            local client core: config, keyring secrets, SQLite state, run_id
+serving/         Gold export to user destinations (Parquet, CSV, DuckDB, SQLite)
+core/            local client: config, keyring secrets, SQLite state, run_id, CLI (`python -m core.cli`)
 agent/           MCP server over the Analysis Store
 infra/           Terraform: S3, EC2, Lambda, SSM, SNS
 lambda_src/      S3 -> Volume copier

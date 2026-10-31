@@ -61,6 +61,20 @@ Binarios (fotos, adjuntos) nunca salen de la maquina; solo suben metadatos y has
 
 ![Flujo Photos](docs/diagrams/photos-flow.svg)
 
+### Inicio rapido (cliente Gmail)
+
+Requiere Python 3.13 y [uv](https://docs.astral.sh/uv/), el workspace Databricks del proyecto con el Volume `scratch` (`./scripts/deploy_bundle.sh`), un PAT de Databricks y un OAuth client propio de Google (Desktop) en una cuenta de prueba. Detalle de configuracion: [docs/spikes.md](docs/spikes.md).
+
+```sh
+uv sync --group client
+export DATABRICKS_HOST=https://<workspace>.cloud.databricks.com
+uv run python spikes/00_store_token.py                              # PAT de Databricks -> keyring del SO
+uv run python -m core.cli gmail auth ~/client_secret.json             # token de Google -> keyring del SO
+uv run python -m core.cli gmail run --format duckdb --out out/
+```
+
+`gmail run` sincroniza Gmail de forma incremental, sube los lotes crudos nuevos a `scratch/<run_id>/`, ejecuta el job, descarga Gold, borra el path scratch y falla si queda algun objeto. Salida: archivos Parquet o CSV por run, o una base DuckDB/SQLite fusionada entre runs. Estado: probado con mocks y Spark local; primera ejecucion real pendiente ([roadmap](docs/roadmap.md)).
+
 Detalle: [modelo de datos](docs/model.md), [retencion](docs/retention.md), [ADRs](docs/adr/).
 
 ## Catalogo de servicios
@@ -120,8 +134,8 @@ Calendar, Drive, YouTube. Broker. UI. Multiusuario real. Geocoding inverso. Proc
 ```
 extraction/      extractores: Open Wearables (box); Gmail (cliente local)
 lakehouse/       bundle Databricks: pipeline medallon Lakeflow, export de gold; job efimero Gmail
-serving/         export de Gold a destinos del usuario (F2)
-core/            nucleo del cliente local: config, secretos en keyring, estado SQLite, run_id
+serving/         export de Gold a destinos del usuario (Parquet, CSV, DuckDB, SQLite)
+core/            cliente local: config, secretos en keyring, estado SQLite, run_id, CLI (`python -m core.cli`)
 agent/           servidor MCP sobre el Analysis Store
 infra/           Terraform: S3, EC2, Lambda, SSM, SNS
 lambda_src/      copiador S3 -> Volume
