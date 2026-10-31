@@ -28,9 +28,21 @@ Cada script imprime `spike NN: PASS|FAIL - detalle`. Copiar el resultado a la ta
 | 5 | Stats de contenido en `_delta_log` | `05_delta_log_stats.py` | pendiente de ejecucion | - |
 | 6 | Fuga de valores en excepciones (error / trace del run) | `06_exception_leak.py` | pendiente de ejecucion | - |
 | 7 | Persistencia de `print()`/`show()` en logs del run | `07_display_persistence.py` | pendiente de ejecucion | - |
+| 8 | Gmail: sync inicial, cambio de label, borrado, re-sync, forzar 404 | `08_gmail_sync.py` | pendiente de ejecucion (logica cubierta con mocks en `tests/test_gmail_ingest.py`) | - |
+| 13 | Token OAuth a 8 dias (app en "Testing") | `08_gmail_sync.py` repetido al dia 8 | pendiente de ejecucion | - |
 | 14 | Keyring en SO objetivo | (observado al preparar spikes) | parcial | WSL/Linux sin escritorio: `keyring.errors.NoKeyringError` (sin backend). Windows/macOS: `REVIEW`. Plan B: fallback cifrado local o ejecutar el cliente en el SO host |
 
 Bloqueo actual de 1-7: sin credenciales de Databricks en el entorno de desarrollo del cliente (sin `DATABRICKS_HOST` ni PAT en el keyring).
+
+## Gmail (spikes 8 y 13)
+
+1. Google Cloud Console, cuenta de prueba (nunca la personal): habilitar Gmail API en un proyecto, pantalla de consentimiento en modo "Testing" con el propio usuario como tester, crear OAuth client tipo "Desktop" y descargar `client_secret.json` fuera del repo. Puede ser el mismo proyecto de Google Health, con un client distinto.
+2. `uv run python spikes/08_gmail_sync.py ~/client_secret.json` -> modo `full`.
+3. En Gmail: cambiar un label, borrar un correo, recibir uno nuevo. Ejecutar de nuevo -> modo `incremental` con registros `history` y `message`.
+4. `uv run python spikes/08_gmail_sync.py --expire` -> modo `full` (404 por `historyId` viejo).
+5. Spike 13: repetir el paso 3 al dia 8 sin reautorizar. Si falla, el refresh token caduca en "Testing".
+
+Los dumps quedan en `~/.wiener-data/bronze/gmail/` (fuera del repo). El script solo imprime conteos.
 
 ## Notas de diseno
 

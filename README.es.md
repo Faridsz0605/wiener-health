@@ -118,7 +118,7 @@ Calendar, Drive, YouTube. Broker. UI. Multiusuario real. Geocoding inverso. Proc
 ## Estructura del repo
 
 ```
-extraction/      extractores: Open Wearables (box); Gmail (cliente local, F2)
+extraction/      extractores: Open Wearables (box); Gmail (cliente local)
 lakehouse/       bundle Databricks: pipeline medallon Lakeflow, export de gold; job Gmail (F2)
 serving/         export de Gold a destinos del usuario (F2)
 core/            nucleo del cliente local: config, secretos en keyring, estado SQLite, run_id
