@@ -14,9 +14,37 @@ dependencies = [
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.7"]
+# Local client for personal Google sources; kept out of the box install (`uv sync --no-dev`).
+client = [
+    "keyring",
+]
 
 [tool.ruff]
 line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D",       # docstrings are optional; names carry intent
+  "CPY",     # no per-file copyright headers
+  "COM812",  # conflicts with the formatter
+  "ISC001",  # conflicts with the formatter
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "PLR2004", "ANN", "INP001", "ARG"]
+"tools/**" = ["INP001", "T201"]
+"spikes/**" = ["INP001", "T201"]
+"lakehouse/**" = ["INP001"]
+# shortcut: modules that predate the strict rule set keep their original checks; tighten when next touched.
+"lambda_src/to_volume.py" = ["ANN", "E501", "PLW0603", "S310", "T201"]
+"extraction/extract.py" = ["ANN", "T201"]
+"extraction/load_gold.py" = ["ANN", "T201"]
+"agent/mcp_server.py" = ["ANN", "RET504"]
+"lakehouse/src/pipeline.py" = ["ANN", "FBT003", "N812"]
+"box/scripts/google_auth_url.py" = ["INP001", "S310", "T201"]
+"tests/test_{extract,load_gold,to_volume}.py" = ["N803", "PLC0415", "PT018"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

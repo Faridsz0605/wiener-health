@@ -121,6 +121,7 @@ Calendar, Drive, YouTube. Broker. UI. Real multi-user. Reverse geocoding. Binary
 extraction/      extractors: Open Wearables (box); Gmail (local client, F2)
 lakehouse/       Databricks bundle: Lakeflow medallion pipeline, gold export; Gmail job (F2)
 serving/         Gold export to user destinations (F2)
+core/            local client core: config, keyring secrets, SQLite state, run_id
 agent/           MCP server over the Analysis Store
 infra/           Terraform: S3, EC2, Lambda, SSM, SNS
 lambda_src/      S3 -> Volume copier
