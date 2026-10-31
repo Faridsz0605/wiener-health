@@ -1,5 +1,7 @@
 # Metricas de salud
 
+![Flujo health](../diagrams/health-flow.svg)
+
 | Campo | Valor |
 |---|---|
 | Problema que resuelve | Vista 360 de la salud: actividad, ritmo cardiaco, sueno y entrenamientos en un solo modelo, consultable por un agente |

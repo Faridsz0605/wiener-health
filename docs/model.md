@@ -13,6 +13,8 @@ Capas:
 - **Silver**: tipado, estado actual por clave natural. MERGE ordenado por version/updated (dedup determinista). Borrados = flag, no delete fisico.
 - **Gold**: modelo dimensional para analitica.
 
+![Modelo medallon](diagrams/medallion-model.svg)
+
 ## Gold Health (desplegado)
 
 | Tabla | Grano | Notas |

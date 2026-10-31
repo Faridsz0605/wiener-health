@@ -1,0 +1,11 @@
+{
+  "name": "wiener-data-diagrams",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "diagrams": "node render.mjs"
+  },
+  "dependencies": {
+    "roughjs": "4.6.6"
+  }
+}

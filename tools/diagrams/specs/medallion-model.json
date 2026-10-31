@@ -1,0 +1,198 @@
+{
+  "title": "Medallion model",
+  "width": 1200,
+  "height": 780,
+  "groups": [
+    {
+      "x": 30,
+      "y": 70,
+      "w": 300,
+      "h": 660,
+      "label": "Bronze (raw, per run)",
+      "fill": "#ffc9c9"
+    },
+    {
+      "x": 370,
+      "y": 70,
+      "w": 360,
+      "h": 660,
+      "label": "Silver (typed, current state)",
+      "fill": "#a5d8ff"
+    },
+    {
+      "x": 770,
+      "y": 70,
+      "w": 400,
+      "h": 660,
+      "label": "Gold (dimensional)",
+      "fill": "#ffec99"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "b_gmail",
+      "x": 60,
+      "y": 130,
+      "w": 240,
+      "h": 90,
+      "label": "gmail raw JSON\nmessages + history",
+      "fill": "#ffc9c9"
+    },
+    {
+      "id": "b_photo",
+      "x": 60,
+      "y": 400,
+      "w": 240,
+      "h": 90,
+      "label": "photos sidecar + EXIF\n+ content hash",
+      "fill": "#ffc9c9"
+    },
+    {
+      "id": "s_email",
+      "x": 400,
+      "y": 110,
+      "w": 300,
+      "h": 100,
+      "label": "silver_email\n1 row per message_id\nlatest version wins\nis_deleted flag",
+      "fill": "#a5d8ff"
+    },
+    {
+      "id": "s_label",
+      "x": 400,
+      "y": 250,
+      "w": 300,
+      "h": 80,
+      "label": "silver_email_label_event\nlabelsAdded / labelsRemoved",
+      "fill": "#a5d8ff"
+    },
+    {
+      "id": "s_photo",
+      "x": 400,
+      "y": 400,
+      "w": 300,
+      "h": 90,
+      "label": "silver_photo\n1 row per content_hash\nsnapshot diff",
+      "fill": "#a5d8ff"
+    },
+    {
+      "id": "f_email",
+      "x": 800,
+      "y": 120,
+      "w": 160,
+      "h": 80,
+      "label": "fact_email",
+      "fill": "#ffec99"
+    },
+    {
+      "id": "f_photo",
+      "x": 800,
+      "y": 400,
+      "w": 160,
+      "h": 80,
+      "label": "fact_photo",
+      "fill": "#ffec99"
+    },
+    {
+      "id": "dim_date",
+      "x": 820,
+      "y": 260,
+      "w": 140,
+      "h": 80,
+      "label": "dim_date",
+      "fill": "#b2f2bb",
+      "shape": "ellipse"
+    },
+    {
+      "id": "metrics",
+      "x": 990,
+      "y": 200,
+      "w": 160,
+      "h": 200,
+      "label": "metrics\nmails per hour/day\ntop senders\nreply latency\nphotos per\nmonth / camera",
+      "fill": "#ffec99"
+    },
+    {
+      "id": "b_health",
+      "x": 60,
+      "y": 570,
+      "w": 240,
+      "h": 100,
+      "label": "bronze_timeseries\nbronze_sleep\nbronze_workouts\n1 row per Extraction file",
+      "fill": "#ffc9c9",
+      "size": 14
+    },
+    {
+      "id": "s_health",
+      "x": 400,
+      "y": 570,
+      "w": 300,
+      "h": 100,
+      "label": "silver_timeseries\nsilver_sleep\nsilver_workouts\ndedup on natural key",
+      "fill": "#a5d8ff",
+      "size": 14
+    },
+    {
+      "id": "g_health",
+      "x": 800,
+      "y": 560,
+      "w": 350,
+      "h": 120,
+      "label": "daily_health_summary\nsleep_nightly\nworkout_summary\ntrend_baselines (7d / 30d)",
+      "fill": "#ffec99",
+      "size": 14
+    }
+  ],
+  "edges": [
+    {
+      "from": "b_gmail",
+      "to": "s_email"
+    },
+    {
+      "from": "b_gmail",
+      "to": "s_label"
+    },
+    {
+      "from": "b_photo",
+      "to": "s_photo"
+    },
+    {
+      "from": "s_email",
+      "to": "f_email"
+    },
+    {
+      "from": "s_photo",
+      "to": "f_photo"
+    },
+    {
+      "from": "f_email",
+      "to": "dim_date"
+    },
+    {
+      "from": "f_photo",
+      "to": "dim_date"
+    },
+    {
+      "from": "f_email",
+      "to": "metrics"
+    },
+    {
+      "from": "f_photo",
+      "to": "metrics"
+    },
+    {
+      "from": "b_health",
+      "to": "s_health"
+    },
+    {
+      "from": "s_health",
+      "to": "g_health"
+    }
+  ],
+  "notes": [
+    {
+      "x": 30,
+      "y": 755,
+      "text": "Top: Gmail / Photos (ephemeral, per run). Bottom: health (persistent tables in workspace.wiener, deployed)."
+    }
+  ]
+}

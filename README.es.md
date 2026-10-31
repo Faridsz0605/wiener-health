@@ -23,33 +23,11 @@ Wiener Health, el proyecto original, continua como fuente de salud y como app de
 
 ## Arquitectura
 
+![Arquitectura](docs/diagrams/architecture-aws.svg)
+
 ### Lakehouse de salud (desplegado)
 
-```mermaid
-flowchart LR
-  fitbit[Fitbit] --> google[Google Health API]
-  subgraph aws[AWS us-east-1]
-    subgraph box[EC2 t4g.small]
-      ow[Open Wearables + Postgres]
-      ext[Timer de extraccion, 6h]
-      load[Timer del loader de Gold]
-      as[(Analysis Store<br/>Postgres + pgvector)]
-    end
-    s3[(S3 Raw Archive)]
-    lambda[Lambda: S3 a Volume]
-    bedrock[Bedrock Titan Embeddings v2]
-  end
-  subgraph dbx[Databricks Free Edition]
-    vol[UC Volume]
-    ldp[Pipeline Lakeflow<br/>bronze, silver, gold]
-    gold_vol[UC Volume: Parquet gold]
-  end
-  google --> ow
-  ow --> ext --> s3 -- ObjectCreated --> lambda --> vol -- llegada de archivo --> ldp --> gold_vol
-  gold_vol --> load --> as
-  load --> bedrock
-  as --> mcp[Servidor MCP en laptop] --> agent[Cualquier cliente MCP / LLM]
-```
+![Flujo health](docs/diagrams/health-flow.svg)
 
 ### Fuentes Google personales (dev)
 
@@ -68,6 +46,8 @@ Contrato: procesamiento efimero con **retencion cero verificada**. La plataforma
   borrar scratch/<run_id>/ -> verificar cero objetos
 ```
 
+![Ciclo de vida de un run](docs/diagrams/run-lifecycle.svg)
+
 Binarios (fotos, adjuntos) nunca salen de la maquina; solo suben metadatos y hashes.
 
 | | Gmail | Photos |
@@ -76,6 +56,10 @@ Binarios (fotos, adjuntos) nunca salen de la maquina; solo suben metadatos y has
 | Mecanismo | `history.list` + `historyId` | Takeout zip -> sidecar + EXIF |
 | Silver | Estado actual por `message_id` (gana la version mas reciente). Labels = eventos | Una fila por `content_hash`. Diff entre snapshots |
 | Grano | Mensaje (`threadId` aparte) | Foto |
+
+![Flujo Gmail](docs/diagrams/gmail-flow.svg)
+
+![Flujo Photos](docs/diagrams/photos-flow.svg)
 
 Detalle: [modelo de datos](docs/model.md), [retencion](docs/retention.md), [ADRs](docs/adr/).
 
@@ -144,6 +128,7 @@ box/             docker compose y timers systemd del box EC2
 scripts/         helpers de despliegue y tunel
 spikes/          scripts desechables numerados por spike
 tests/           pytest; fixtures sinteticos
+tools/           chequeos del repo y render de diagramas (`npm run diagrams`)
 docs/            ADRs, catalogo, roadmap, modelo, retencion
 ```
 

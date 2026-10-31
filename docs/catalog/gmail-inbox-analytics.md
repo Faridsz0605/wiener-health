@@ -1,5 +1,7 @@
 # Analitica de inbox Gmail
 
+![Flujo Gmail](../diagrams/gmail-flow.svg)
+
 | Campo | Valor |
 |---|---|
 | Problema que resuelve | Entender el propio correo: volumen por hora/dia, quien escribe mas, cuanto tardo en responder |

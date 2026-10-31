@@ -23,33 +23,11 @@ Wiener Health, the original project, lives on as the health source and the agent
 
 ## Architecture
 
+![Architecture](docs/diagrams/architecture-aws.svg)
+
 ### Health lakehouse (deployed)
 
-```mermaid
-flowchart LR
-  fitbit[Fitbit] --> google[Google Health API]
-  subgraph aws[AWS us-east-1]
-    subgraph box[EC2 t4g.small]
-      ow[Open Wearables + Postgres]
-      ext[Extraction timer, 6h]
-      load[Gold loader timer]
-      as[(Analysis Store<br/>Postgres + pgvector)]
-    end
-    s3[(S3 Raw Archive)]
-    lambda[Lambda: S3 to Volume]
-    bedrock[Bedrock Titan Embeddings v2]
-  end
-  subgraph dbx[Databricks Free Edition]
-    vol[UC Volume]
-    ldp[Lakeflow pipeline<br/>bronze, silver, gold]
-    gold_vol[UC Volume: gold Parquet]
-  end
-  google --> ow
-  ow --> ext --> s3 -- ObjectCreated --> lambda --> vol -- file arrival --> ldp --> gold_vol
-  gold_vol --> load --> as
-  load --> bedrock
-  as --> mcp[MCP server on laptop] --> agent[Any MCP client / LLM]
-```
+![Health flow](docs/diagrams/health-flow.svg)
 
 ### Personal Google sources (dev)
 
@@ -68,6 +46,8 @@ Contract: ephemeral processing with **verified zero retention**. The platform do
   delete scratch/<run_id>/ -> verify zero objects
 ```
 
+![Run lifecycle](docs/diagrams/run-lifecycle.svg)
+
 Binaries (photos, attachments) never leave the machine; only metadata and hashes are uploaded.
 
 | | Gmail | Photos |
@@ -76,6 +56,10 @@ Binaries (photos, attachments) never leave the machine; only metadata and hashes
 | Mechanism | `history.list` + `historyId` | Takeout zip -> sidecar + EXIF |
 | Silver | Current state per `message_id` (latest version wins). Labels = events | One row per `content_hash`. Diff between snapshots |
 | Grain | Message (`threadId` separate) | Photo |
+
+![Gmail flow](docs/diagrams/gmail-flow.svg)
+
+![Photos flow](docs/diagrams/photos-flow.svg)
 
 Details: [data model](docs/model.md), [retention](docs/retention.md), [ADRs](docs/adr/).
 
@@ -144,6 +128,7 @@ box/             docker compose and systemd timers for the EC2 box
 scripts/         deploy and tunnel helpers
 spikes/          throwaway scripts numbered by spike
 tests/           pytest; fixtures are synthetic
+tools/           repo checks and diagram rendering (`npm run diagrams`)
 docs/            ADRs, catalog, roadmap, model, retention
 ```
 

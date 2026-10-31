@@ -1,5 +1,7 @@
 # Inventario de fotos
 
+![Flujo Photos](../diagrams/photos-flow.svg)
+
 | Campo | Valor |
 |---|---|
 | Problema que resuelve | Inventario de la biblioteca: fotos por mes/camara, duplicados entre albumes, altas y bajas entre exportaciones |

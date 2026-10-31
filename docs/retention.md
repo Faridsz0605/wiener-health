@@ -18,6 +18,8 @@ El resto del documento aplica a las fuentes efimeras.
 | Parametros de run | No pasar contenido (emails, nombres); solo `run_id` y paths |
 | Backups/versionado S3 | Desactivar o lifecycle |
 
+![Ciclo de vida de un run](diagrams/run-lifecycle.svg)
+
 ## Invariante de test
 
 Tras cada job, listar workspace/Volume por `run_id` -> **cero objetos** (salvo salida en espera de pull). Si queda algo, el run falla.

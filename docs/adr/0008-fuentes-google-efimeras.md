@@ -15,6 +15,8 @@ Gmail y Photos tienen otro perfil: mas sensibles, pensados para ser un servicio 
 - Sin S3 propio ni Raw Archive para estas fuentes. Binarios (fotos, adjuntos) nunca suben; solo metadatos y hashes.
 - Spark se usa como objetivo de aprendizaje: el volumen de metadatos cabe en DuckDB.
 
+![Arquitectura](../diagrams/architecture-aws.svg)
+
 ## Consecuencias
 
 - Mismo workspace Free Edition que health: sin aislamiento de tenants; un bug de path mezcla datos. `run_id` validado antes de construir rutas.

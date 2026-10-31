@@ -20,7 +20,7 @@ Salida: README EN/ES, ADRs 0003-0008, catalogo, modelo, retencion, diagramas, sc
 |---|---|
 | Workflow del repo (CONTRIBUTING, PR template, `.gitignore`, proteccion de `main`) | en PR |
 | Fusion Wiener-Data: docs, ADRs, catalogo | en PR |
-| Diagramas SVG | pendiente |
+| Diagramas SVG | en PR |
 | Scaffold del cliente local (`core/`, estado SQLite, keyring, linter, CI) | pendiente |
 
 ## F1 - Spikes de plataforma (1-7)

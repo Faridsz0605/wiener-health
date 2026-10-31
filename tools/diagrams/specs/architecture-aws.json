@@ -1,0 +1,283 @@
+{
+  "title": "Wiener-Data - architecture (AWS + Databricks Free Edition)",
+  "width": 1200,
+  "height": 780,
+  "groups": [
+    {
+      "x": 30,
+      "y": 70,
+      "w": 220,
+      "h": 640,
+      "label": "Google",
+      "fill": "#ffec99"
+    },
+    {
+      "x": 290,
+      "y": 70,
+      "w": 470,
+      "h": 330,
+      "label": "AWS us-east-1 (own account)",
+      "fill": "#ffc9c9"
+    },
+    {
+      "x": 290,
+      "y": 430,
+      "w": 470,
+      "h": 280,
+      "label": "Local client (laptop)",
+      "fill": "#b2f2bb"
+    },
+    {
+      "x": 800,
+      "y": 70,
+      "w": 370,
+      "h": 640,
+      "label": "Databricks Free Edition (serverless)",
+      "fill": "#a5d8ff"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ghealth",
+      "x": 50,
+      "y": 115,
+      "w": 180,
+      "h": 70,
+      "label": "Fitbit ->\nGoogle Health API",
+      "fill": "#ffec99"
+    },
+    {
+      "id": "gmail",
+      "x": 50,
+      "y": 480,
+      "w": 180,
+      "h": 70,
+      "label": "Gmail API\nhistory.list",
+      "fill": "#ffec99"
+    },
+    {
+      "id": "takeout",
+      "x": 50,
+      "y": 600,
+      "w": 180,
+      "h": 70,
+      "label": "Google Takeout\n(guided zip)",
+      "fill": "#ffec99"
+    },
+    {
+      "id": "box",
+      "x": 310,
+      "y": 115,
+      "w": 210,
+      "h": 70,
+      "label": "EC2 box\nOpen Wearables\n+ extraction (6h)",
+      "fill": "#ffc9c9",
+      "size": 14
+    },
+    {
+      "id": "s3",
+      "x": 540,
+      "y": 115,
+      "w": 200,
+      "h": 70,
+      "label": "S3 Raw Archive",
+      "fill": "#ffc9c9"
+    },
+    {
+      "id": "lambda",
+      "x": 540,
+      "y": 225,
+      "w": 200,
+      "h": 70,
+      "label": "Lambda\nS3 -> Volume",
+      "fill": "#ffc9c9"
+    },
+    {
+      "id": "as",
+      "x": 310,
+      "y": 225,
+      "w": 210,
+      "h": 80,
+      "label": "Analysis Store (box)\nPostgres + pgvector\ngold loader",
+      "fill": "#ffc9c9",
+      "size": 14
+    },
+    {
+      "id": "bedrock",
+      "x": 540,
+      "y": 330,
+      "w": 200,
+      "h": 50,
+      "label": "Bedrock Titan v2",
+      "fill": "#ffc9c9"
+    },
+    {
+      "id": "extract",
+      "x": 310,
+      "y": 600,
+      "w": 210,
+      "h": 80,
+      "label": "Extractors\ngmail / photos\nkeyring + SQLite",
+      "fill": "#b2f2bb",
+      "size": 14
+    },
+    {
+      "id": "cli",
+      "x": 540,
+      "y": 480,
+      "w": 200,
+      "h": 80,
+      "label": "Client CLI\nupload / run-now\npull / cleanup",
+      "fill": "#b2f2bb",
+      "size": 14
+    },
+    {
+      "id": "mcp",
+      "x": 310,
+      "y": 480,
+      "w": 210,
+      "h": 80,
+      "label": "MCP server\n-> any MCP client",
+      "fill": "#b2f2bb"
+    },
+    {
+      "id": "export",
+      "x": 540,
+      "y": 600,
+      "w": 200,
+      "h": 70,
+      "label": "Export\nParquet / CSV\nDuckDB / SQLite",
+      "fill": "#b2f2bb",
+      "size": 14
+    },
+    {
+      "id": "landing",
+      "x": 830,
+      "y": 115,
+      "w": 310,
+      "h": 60,
+      "label": "UC Volume landing",
+      "fill": "#a5d8ff"
+    },
+    {
+      "id": "ldp",
+      "x": 830,
+      "y": 210,
+      "w": 310,
+      "h": 80,
+      "label": "Lakeflow pipeline (health)\nbronze / silver / gold",
+      "fill": "#a5d8ff"
+    },
+    {
+      "id": "goldvol",
+      "x": 830,
+      "y": 330,
+      "w": 310,
+      "h": 60,
+      "label": "UC Volume gold_export",
+      "fill": "#a5d8ff"
+    },
+    {
+      "id": "scratch",
+      "x": 830,
+      "y": 480,
+      "w": 310,
+      "h": 80,
+      "label": "UC Volume scratch/<run_id>/\ndeleted after each run",
+      "fill": "#a5d8ff"
+    },
+    {
+      "id": "job",
+      "x": 830,
+      "y": 600,
+      "w": 310,
+      "h": 70,
+      "label": "Ephemeral job (Gmail)\nserverless PySpark",
+      "fill": "#a5d8ff"
+    }
+  ],
+  "edges": [
+    {
+      "from": "ghealth",
+      "to": "box",
+      "label": "OAuth"
+    },
+    {
+      "from": "box",
+      "to": "s3"
+    },
+    {
+      "from": "s3",
+      "to": "lambda",
+      "label": "ObjectCreated"
+    },
+    {
+      "from": "lambda",
+      "to": "landing"
+    },
+    {
+      "from": "landing",
+      "to": "ldp",
+      "label": "file arrival"
+    },
+    {
+      "from": "ldp",
+      "to": "goldvol"
+    },
+    {
+      "from": "goldvol",
+      "to": "as",
+      "label": "pull Parquet"
+    },
+    {
+      "from": "as",
+      "to": "bedrock",
+      "dashed": true
+    },
+    {
+      "from": "as",
+      "to": "mcp",
+      "label": "SSM tunnel",
+      "dashed": true
+    },
+    {
+      "from": "gmail",
+      "to": "extract",
+      "label": "BYO OAuth"
+    },
+    {
+      "from": "takeout",
+      "to": "extract",
+      "dashed": true
+    },
+    {
+      "from": "extract",
+      "to": "cli"
+    },
+    {
+      "from": "cli",
+      "to": "scratch",
+      "label": "upload / pull / delete"
+    },
+    {
+      "from": "cli",
+      "to": "job",
+      "label": "run-now"
+    },
+    {
+      "from": "job",
+      "to": "scratch"
+    },
+    {
+      "from": "cli",
+      "to": "export"
+    }
+  ],
+  "notes": [
+    {
+      "x": 30,
+      "y": 735,
+      "text": "Health: persistent, single subject (ADR 0001, 0002). Gmail/Photos: only metadata and hashes leave the laptop; scratch/<run_id>/ verified empty (ADR 0008)."
+    }
+  ]
+}
