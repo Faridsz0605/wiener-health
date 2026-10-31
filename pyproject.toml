@@ -16,7 +16,11 @@ dependencies = [
 dev = ["pytest>=8", "ruff>=0.7"]
 # Local client for personal Google sources; kept out of the box install (`uv sync --no-dev`).
 client = [
+    "databricks-sdk>=0.158.0",
     "keyring",
+]
+spikes = [
+    "databricks-sql-connector>=4.8.0",
 ]
 
 [tool.ruff]

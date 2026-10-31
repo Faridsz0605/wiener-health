@@ -29,13 +29,13 @@ Salida: cada spike con resultado en `docs/spikes.md`; decisiones confirmadas o p
 
 | # | Spike | Si falla | Estado |
 |---|---|---|---|
-| 1 | Subir JSON a Volume desde local (SDK/Files API) | Bronze por otro camino | pendiente |
-| 2 | Leer Gold desde local via SQL warehouse a Parquet | Pull por Files API (ya usado por health) | pendiente |
-| 3 | `run-now` por Jobs API con PAT | Disparo manual en MVP | pendiente |
-| 4 | Job con scratch por `run_id` + cleanup; listar y afirmar vacio | Revisar modelo de retencion | pendiente |
-| 5 | Inspeccionar `_delta_log` de tabla temporal | Justifica borrar path entero | pendiente |
-| 6 | Excepcion con valor reconocible; buscar fuga en logs/output | Reforzar sanitizacion | pendiente |
-| 7 | `display()` en run; confirmar persistencia en historial | Linter en CI | pendiente |
+| 1 | Subir JSON a Volume desde local (SDK/Files API) | Bronze por otro camino | pendiente de ejecucion (ver [spikes](spikes.md)) |
+| 2 | Leer Gold desde local via SQL warehouse a Parquet | Pull por Files API (ya usado por health) | pendiente de ejecucion (ver [spikes](spikes.md)) |
+| 3 | `run-now` por Jobs API con PAT | Disparo manual en MVP | pendiente de ejecucion (ver [spikes](spikes.md)) |
+| 4 | Job con scratch por `run_id` + cleanup; listar y afirmar vacio | Revisar modelo de retencion | pendiente de ejecucion (ver [spikes](spikes.md)) |
+| 5 | Inspeccionar `_delta_log` de tabla temporal | Justifica borrar path entero | pendiente de ejecucion (ver [spikes](spikes.md)) |
+| 6 | Excepcion con valor reconocible; buscar fuga en logs/output | Reforzar sanitizacion | pendiente de ejecucion (ver [spikes](spikes.md)) |
+| 7 | `display()` en run; confirmar persistencia en historial | Linter en CI | pendiente de ejecucion (ver [spikes](spikes.md)) |
 
 Spike 1 esta parcialmente validado por M2 (la Lambda sube a un Volume) y el pull de Parquet por Files API por M3; los spikes confirman el camino desde el cliente local.
 
@@ -51,7 +51,7 @@ Salida: un comando del cliente sube el lote, ejecuta el job, descarga Gold a Par
 | Spike 8: sync inicial, cambio de label, borrado, re-sync, forzar 404 | pendiente |
 | Spike 10: Silver con 5 correos patologicos | pendiente |
 | Spike 13: token OAuth a 8 dias | pendiente |
-| Spike 14: keyring en SO objetivo | pendiente |
+| Spike 14: keyring en SO objetivo | parcial: WSL sin backend (ver [spikes](spikes.md)) |
 
 ## F3 - Photos
 
