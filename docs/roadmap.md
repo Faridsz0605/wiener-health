@@ -46,10 +46,10 @@ Salida: un comando del cliente sube el lote, ejecuta el job, descarga Gold a Par
 | Item | Estado |
 |---|---|
 | Ingesta Gmail (OAuth BYO, `historyId`, resync 404, dump local) | en PR (probado con mocks) |
-| Pipeline Bronze -> Silver -> Gold | pendiente |
+| Pipeline Bronze -> Silver -> Gold | en PR (probado con PySpark local) |
 | Orquestador CLI + export | pendiente |
 | Spike 8: sync inicial, cambio de label, borrado, re-sync, forzar 404 | pendiente de ejecucion (ver [spikes](spikes.md)) |
-| Spike 10: Silver con 5 correos patologicos | pendiente |
+| Spike 10: Silver con 5 correos patologicos | hecho en local (`tests/test_gmail_pipeline.py`); falta en Databricks |
 | Spike 13: token OAuth a 8 dias | pendiente de ejecucion (ver [spikes](spikes.md)) |
 | Spike 14: keyring en SO objetivo | parcial: WSL sin backend (ver [spikes](spikes.md)) |
 

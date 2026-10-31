@@ -119,7 +119,7 @@ Calendar, Drive, YouTube. Broker. UI. Multiusuario real. Geocoding inverso. Proc
 
 ```
 extraction/      extractores: Open Wearables (box); Gmail (cliente local)
-lakehouse/       bundle Databricks: pipeline medallon Lakeflow, export de gold; job Gmail (F2)
+lakehouse/       bundle Databricks: pipeline medallon Lakeflow, export de gold; job efimero Gmail
 serving/         export de Gold a destinos del usuario (F2)
 core/            nucleo del cliente local: config, secretos en keyring, estado SQLite, run_id
 agent/           servidor MCP sobre el Analysis Store

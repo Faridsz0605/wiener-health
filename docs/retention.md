@@ -18,6 +18,13 @@ El resto del documento aplica a las fuentes efimeras.
 | Parametros de run | No pasar contenido (emails, nombres); solo `run_id` y paths |
 | Backups/versionado S3 | Desactivar o lifecycle |
 
+## Como lo aplica el job Gmail
+
+- Silver vive solo en memoria del job; a disco solo se escribe Gold en Parquet (`scratch/<run_id>/gold/`), sin Delta, por lo tanto sin `_delta_log`.
+- `finally`: borra `scratch/<run_id>/bronze`; si el job fallo, borra tambien `gold`. El cliente borra el path completo tras el pull.
+- Errores: `RuntimeError("E_GMAIL_PIPELINE: <TipoDeExcepcion>")` sin causa encadenada.
+- Gold sin asunto ni cuerpo; parametro del run = solo la ruta scratch.
+
 ![Ciclo de vida de un run](diagrams/run-lifecycle.svg)
 
 ## Invariante de test
