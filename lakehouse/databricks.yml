@@ -33,6 +33,11 @@ resources:
       catalog_name: ${var.catalog}
       schema_name: ${resources.schemas.wiener.name}
       name: gold_export
+    # Ephemeral per-run paths for personal Google sources; emptied after every run.
+    scratch:
+      catalog_name: ${var.catalog}
+      schema_name: ${resources.schemas.wiener.name}
+      name: scratch
 
   pipelines:
     wiener_medallion:

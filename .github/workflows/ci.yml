@@ -10,11 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
       - uses: astral-sh/setup-uv@v6
-      - run: uv sync --frozen
+      - run: uv sync --frozen --group client
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run pytest -q
+      - run: uv run python tools/check_no_row_output.py
       - uses: hashicorp/setup-terraform@v3
       - run: terraform -chdir=infra fmt -check
       - run: terraform -chdir=infra init -backend=false -input=false && terraform -chdir=infra validate

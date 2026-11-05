@@ -1,0 +1,28 @@
+{
+  "title": "Photos inventory - snapshot flow (planned, F3)",
+  "width": 1200,
+  "height": 440,
+  "nodes": [
+    { "id": "takeout", "x": 30, "y": 90, "w": 190, "h": 110, "label": "1. Guided Takeout\napp opens preset\nuser schedules it", "fill": "#ffec99" },
+    { "id": "watch", "x": 250, "y": 90, "w": 160, "h": 110, "label": "2. Watch folder\nnew zip found", "fill": "#b2f2bb" },
+    { "id": "extract", "x": 440, "y": 90, "w": 210, "h": 110, "label": "3. Local extract\nsidecar JSON + EXIF\ncontent hash\nbinaries stay local", "fill": "#b2f2bb" },
+    { "id": "nomatch", "x": 440, "y": 280, "w": 210, "h": 90, "label": "sidecar without match\n(truncated, (1), -edited)\n-> kept as data", "fill": "#ffc9c9" },
+    { "id": "job", "x": 680, "y": 90, "w": 220, "h": 110, "label": "4. Databricks job\nSilver: 1 row per\ncontent_hash\ndiff vs last snapshot", "fill": "#a5d8ff" },
+    { "id": "gold", "x": 930, "y": 90, "w": 240, "h": 110, "label": "5. Gold\ndim_date, fact_photo\nphotos per month/camera\nduplicates", "fill": "#a5d8ff" },
+    { "id": "export", "x": 930, "y": 280, "w": 240, "h": 90, "label": "6. Export\nParquet / DuckDB / CSV / SQLite", "fill": "#ffec99" }
+  ],
+  "edges": [
+    { "from": "takeout", "to": "watch" },
+    { "from": "watch", "to": "extract" },
+    { "from": "extract", "to": "nomatch", "dashed": true },
+    { "from": "extract", "to": "job" },
+    { "from": "job", "to": "gold" },
+    { "from": "gold", "to": "export", "label": "pull" }
+  ],
+  "notes": [
+    { "x": 30, "y": 300, "text": "Date precedence:" },
+    { "x": 30, "y": 325, "text": "photoTakenTime > EXIF > file date" },
+    { "x": 680, "y": 300, "text": "Duplicates across albums:" },
+    { "x": 680, "y": 325, "text": "hash, never file name" }
+  ]
+}

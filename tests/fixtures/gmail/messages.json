@@ -1,0 +1,381 @@
+[
+  {
+    "id": "thread-1",
+    "threadId": "t-thread",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "",
+    "historyId": "1001",
+    "internalDate": "1709542800000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "text/plain",
+      "headers": [
+        {
+          "name": "From",
+          "value": "Alice Example <alice@example.com>"
+        },
+        {
+          "name": "To",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "Plan del viaje"
+        },
+        {
+          "name": "Date",
+          "value": "Mon, 04 Mar 2024 09:00:00 +0000"
+        },
+        {
+          "name": "Content-Type",
+          "value": "text/plain; charset=\"UTF-8\""
+        }
+      ],
+      "body": {
+        "size": 21,
+        "data": "SG9sYSwgY3VhbmRvIHNhbGltb3M_"
+      }
+    }
+  },
+  {
+    "id": "thread-2",
+    "threadId": "t-thread",
+    "labelIds": [
+      "SENT"
+    ],
+    "snippet": "",
+    "historyId": "1002",
+    "internalDate": "1709544600000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "text/plain",
+      "headers": [
+        {
+          "name": "From",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "To",
+          "value": "Alice Example <alice@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "Re: Plan del viaje"
+        },
+        {
+          "name": "Date",
+          "value": "Mon, 04 Mar 2024 09:30:00 +0000"
+        },
+        {
+          "name": "Content-Type",
+          "value": "text/plain; charset=\"UTF-8\""
+        }
+      ],
+      "body": {
+        "size": 11,
+        "data": "RWwgdmllcm5lcy4"
+      }
+    }
+  },
+  {
+    "id": "thread-3",
+    "threadId": "t-thread",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "",
+    "historyId": "1003",
+    "internalDate": "1709549100000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "text/plain",
+      "headers": [
+        {
+          "name": "From",
+          "value": "Alice Example <alice@example.com>"
+        },
+        {
+          "name": "To",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "Re: Plan del viaje"
+        },
+        {
+          "name": "Date",
+          "value": "Mon, 04 Mar 2024 10:45:00 +0000"
+        },
+        {
+          "name": "Content-Type",
+          "value": "text/plain; charset=\"UTF-8\""
+        }
+      ],
+      "body": {
+        "size": 9,
+        "data": "UGVyZmVjdG8u"
+      }
+    }
+  },
+  {
+    "id": "thread-4",
+    "threadId": "t-thread",
+    "labelIds": [
+      "SENT"
+    ],
+    "snippet": "",
+    "historyId": "1004",
+    "internalDate": "1709553600000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "text/plain",
+      "headers": [
+        {
+          "name": "From",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "To",
+          "value": "Alice Example <alice@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "Re: Plan del viaje"
+        },
+        {
+          "name": "Date",
+          "value": "Mon, 04 Mar 2024 12:00:00 +0000"
+        },
+        {
+          "name": "Content-Type",
+          "value": "text/plain; charset=\"UTF-8\""
+        }
+      ],
+      "body": {
+        "size": 6,
+        "data": "TGlzdG8u"
+      }
+    }
+  },
+  {
+    "id": "html-only",
+    "threadId": "t-html",
+    "labelIds": [
+      "INBOX",
+      "CATEGORY_PROMOTIONS",
+      "UNREAD"
+    ],
+    "snippet": "",
+    "historyId": "1005",
+    "internalDate": "1709594100000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "text/html",
+      "headers": [
+        {
+          "name": "From",
+          "value": "News <news@example.org>"
+        },
+        {
+          "name": "To",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "Boletin"
+        },
+        {
+          "name": "Date",
+          "value": "Mon, 04 Mar 2024 23:15:00 +0000"
+        },
+        {
+          "name": "Content-Type",
+          "value": "text/html; charset=\"UTF-8\""
+        }
+      ],
+      "body": {
+        "size": 24,
+        "data": "PHA-SG9sYSA8Yj5tdW5kbzwvYj48L3A-"
+      }
+    }
+  },
+  {
+    "id": "alternative",
+    "threadId": "t-alt",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "",
+    "historyId": "1006",
+    "internalDate": "1709625900000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "multipart/alternative",
+      "body": {
+        "size": 0
+      },
+      "parts": [
+        {
+          "mimeType": "text/plain",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "text/plain; charset=\"UTF-8\""
+            }
+          ],
+          "body": {
+            "size": 12,
+            "data": "Q3VlcnBvIHBsYW5v"
+          }
+        },
+        {
+          "mimeType": "text/html",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "text/html; charset=\"UTF-8\""
+            }
+          ],
+          "body": {
+            "size": 25,
+            "data": "PHA-Q3VlcnBvIDxpPmh0bWw8L2k-PC9wPg"
+          }
+        }
+      ],
+      "headers": [
+        {
+          "name": "From",
+          "value": "Bob <bob@example.com>"
+        },
+        {
+          "name": "To",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "Dos versiones"
+        },
+        {
+          "name": "Date",
+          "value": "Mon, 01 Jan 2001 00:00:00 +0000"
+        }
+      ]
+    }
+  },
+  {
+    "id": "latin1",
+    "threadId": "t-latin1",
+    "labelIds": [
+      "INBOX",
+      "UNREAD"
+    ],
+    "snippet": "",
+    "historyId": "1007",
+    "internalDate": "1709648400000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "text/plain",
+      "headers": [
+        {
+          "name": "From",
+          "value": "=?ISO-8859-1?Q?Carla_Mu=F1oz?= <carla@example.es>"
+        },
+        {
+          "name": "To",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "=?ISO-8859-1?Q?Informaci=F3n_de_env=EDo?="
+        },
+        {
+          "name": "Date",
+          "value": "Tue, 05 Mar 2024 09:20:00 -0500"
+        },
+        {
+          "name": "Content-Type",
+          "value": "text/plain; charset=\"ISO-8859-1\""
+        }
+      ],
+      "body": {
+        "size": 29,
+        "data": "SW5mb3JtYWNp824gZGUgZW527W86IG1h8WFuYS4"
+      }
+    }
+  },
+  {
+    "id": "attachment",
+    "threadId": "t-attach",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "",
+    "historyId": "1008",
+    "internalDate": "1709740800000",
+    "sizeEstimate": 1000,
+    "payload": {
+      "partId": "",
+      "mimeType": "multipart/mixed",
+      "body": {
+        "size": 0
+      },
+      "parts": [
+        {
+          "mimeType": "text/plain",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "text/plain; charset=\"UTF-8\""
+            }
+          ],
+          "body": {
+            "size": 11,
+            "data": "VmEgYWRqdW50by4"
+          }
+        },
+        {
+          "partId": "1",
+          "mimeType": "application/pdf",
+          "filename": "report.pdf",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/pdf; name=\"report.pdf\""
+            }
+          ],
+          "body": {
+            "attachmentId": "att-1",
+            "size": 52341
+          }
+        }
+      ],
+      "headers": [
+        {
+          "name": "From",
+          "value": "Dave <dave@example.com>"
+        },
+        {
+          "name": "To",
+          "value": "Me Example <me@example.com>"
+        },
+        {
+          "name": "Subject",
+          "value": "Informe"
+        },
+        {
+          "name": "Date",
+          "value": "Wed, 06 Mar 2024 16:00:00 +0000"
+        }
+      ]
+    }
+  }
+]

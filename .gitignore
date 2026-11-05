@@ -12,3 +12,22 @@ infra/.build/
 GLOSSARY.md
 TODO.md
 infra/tfplan
+
+# Personal data and local client state (never commit)
+*.db
+*.sqlite
+*.sqlite3
+*.duckdb
+*.zip
+takeout/
+data/
+out/
+.env.*
+!.env.example
+
+# Python / Node build artifacts
+*.py[cod]
+*.egg-info/
+dist/
+build/
+node_modules/

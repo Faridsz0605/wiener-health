@@ -1,0 +1,121 @@
+{
+  "title": "Health metrics - event-driven micro-batch (deployed)",
+  "width": 1200,
+  "height": 460,
+  "nodes": [
+    {
+      "id": "src",
+      "x": 30,
+      "y": 90,
+      "w": 170,
+      "h": 110,
+      "label": "1. Fitbit\n-> Google Health\n-> Open Wearables\n(EC2 box)",
+      "fill": "#ffec99",
+      "size": 14
+    },
+    {
+      "id": "ext",
+      "x": 230,
+      "y": 90,
+      "w": 180,
+      "h": 110,
+      "label": "2. Extraction\nsystemd timer, 6h\nrolling 3-day window\n-> S3 Raw Archive",
+      "fill": "#ffc9c9",
+      "size": 14
+    },
+    {
+      "id": "lambda",
+      "x": 440,
+      "y": 90,
+      "w": 170,
+      "h": 110,
+      "label": "3. Lambda\nObjectCreated\n-> Volume landing",
+      "fill": "#ffc9c9",
+      "size": 14
+    },
+    {
+      "id": "ldp",
+      "x": 640,
+      "y": 90,
+      "w": 250,
+      "h": 110,
+      "label": "4. Lakeflow (AvailableNow)\nbronze: 1 row per file\nsilver: dedup natural key\ngold: daily, sleep, workouts, trends",
+      "fill": "#a5d8ff",
+      "size": 14
+    },
+    {
+      "id": "export",
+      "x": 920,
+      "y": 90,
+      "w": 250,
+      "h": 110,
+      "label": "5. export_gold\nParquet -> gold_export\nbox loader reloads\nAnalysis Store",
+      "fill": "#a5d8ff",
+      "size": 14
+    },
+    {
+      "id": "embed",
+      "x": 920,
+      "y": 280,
+      "w": 250,
+      "h": 90,
+      "label": "Health Summaries\nre-embedded when text\nchanges (Bedrock Titan v2)",
+      "fill": "#ffc9c9",
+      "size": 14
+    },
+    {
+      "id": "agent",
+      "x": 590,
+      "y": 280,
+      "w": 300,
+      "h": 90,
+      "label": "6. MCP agent\nsearch_health_summaries\nquery_analysis_store",
+      "fill": "#b2f2bb",
+      "size": 14
+    }
+  ],
+  "edges": [
+    {
+      "from": "src",
+      "to": "ext"
+    },
+    {
+      "from": "ext",
+      "to": "lambda"
+    },
+    {
+      "from": "lambda",
+      "to": "ldp"
+    },
+    {
+      "from": "ldp",
+      "to": "export"
+    },
+    {
+      "from": "export",
+      "to": "embed",
+      "dashed": true
+    },
+    {
+      "from": "embed",
+      "to": "agent"
+    }
+  ],
+  "notes": [
+    {
+      "x": 30,
+      "y": 300,
+      "text": "Alerts: job failure email; Lambda error alarm"
+    },
+    {
+      "x": 30,
+      "y": 325,
+      "text": "and systemd OnFailure -> one SNS topic."
+    },
+    {
+      "x": 30,
+      "y": 350,
+      "text": "Raw Archive kept forever (Glacier IR after 90 days)."
+    }
+  ]
+}

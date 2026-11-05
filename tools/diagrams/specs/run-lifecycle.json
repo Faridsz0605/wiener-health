@@ -1,0 +1,27 @@
+{
+  "title": "Run lifecycle - verified zero retention",
+  "width": 1200,
+  "height": 460,
+  "nodes": [
+    { "id": "id", "x": 30, "y": 100, "w": 150, "h": 90, "label": "new run_id", "fill": "#b2f2bb" },
+    { "id": "upload", "x": 210, "y": 100, "w": 180, "h": 90, "label": "upload batch\nscratch/<run_id>/\nbronze", "fill": "#b2f2bb" },
+    { "id": "run", "x": 420, "y": 100, "w": 170, "h": 90, "label": "run-now\nparams: run_id only", "fill": "#a5d8ff" },
+    { "id": "job", "x": 620, "y": 100, "w": 230, "h": 90, "label": "job: try bronze->gold\nfinally: drop intermediates\nerrors sanitized", "fill": "#a5d8ff" },
+    { "id": "pull", "x": 880, "y": 100, "w": 290, "h": 90, "label": "pull Gold\n-> Parquet / DuckDB / CSV / SQLite", "fill": "#b2f2bb" },
+    { "id": "cleanup", "x": 880, "y": 260, "w": 290, "h": 90, "label": "delete scratch/<run_id>/\nwhole path, _delta_log included", "fill": "#b2f2bb" },
+    { "id": "verify", "x": 520, "y": 260, "w": 260, "h": 90, "label": "list scratch/<run_id>/\nassert 0 objects", "fill": "#b2f2bb" },
+    { "id": "fail", "x": 160, "y": 260, "w": 260, "h": 90, "label": "objects left -> run fails\nTTL 24h safety net (REVIEW)", "fill": "#ffc9c9" }
+  ],
+  "edges": [
+    { "from": "id", "to": "upload" },
+    { "from": "upload", "to": "run" },
+    { "from": "run", "to": "job" },
+    { "from": "job", "to": "pull" },
+    { "from": "pull", "to": "cleanup" },
+    { "from": "cleanup", "to": "verify" },
+    { "from": "verify", "to": "fail", "dashed": true }
+  ],
+  "notes": [
+    { "x": 30, "y": 410, "text": "Jobs never display(), show() or print() rows: run history persists output. Enforced by tools/check_no_row_output.py." }
+  ]
+}
